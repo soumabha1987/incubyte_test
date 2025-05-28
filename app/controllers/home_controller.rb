@@ -4,10 +4,11 @@ class HomeController < ApplicationController
     @result =
       if input_numbers.present?
         begin
-          numbers = input_numbers.split(',').map(&:to_i)
-          numbers.sum
+            input_numbers = input_numbers.gsub("\\n", "\n")
+            numbers = input_numbers.split(/,|\n/).map(&:strip).reject(&:empty?).map(&:to_i)
+            numbers.sum
         rescue ArgumentError
-          "Please add comma-separated numbers."
+            "Please add comma-separated numbers."
         end
       else
         0
